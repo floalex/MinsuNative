@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -37,6 +38,10 @@ gem 'toastr-rails', '~> 1.0'
 gem 'omniauth', '~> 1.6'
 gem 'omniauth-facebook', '~> 4.0'
 
+gem 'active_model_serializers', '~> 0.10.0', require: true
+gem 'koala', '~> 3.0.0' # fetch data from Facebook
+
+#----  For Photos  -------
 gem 'paperclip', '~> 5.1.0'
 gem 'aws-sdk', '~> 2.8'
 
@@ -45,7 +50,7 @@ gem 'jquery-ui-rails', '~> 5.0'
 
 gem 'ransack', '~> 1.7'
 
-#----  AirKONG  -------
+#----  MinSu  -------
 gem 'twilio-ruby', '~> 4.11.1'
 gem 'fullcalendar-rails', '~> 3.4.0'
 gem 'momentjs-rails', '~> 2.17.1'

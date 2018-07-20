@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   get 'search' => 'pages#search'
 
-  # ---- AirKong ------
+  # ---- MinSu ------
   get 'dashboard' => 'dashboards#index'
 
   resources :reservations, only: [:approve, :decline] do
