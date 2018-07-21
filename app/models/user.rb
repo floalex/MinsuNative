@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  # run the functions before creating any users
+  before_create :generate_authenticatioin_token
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -63,6 +65,14 @@ class User < ApplicationRecord
 
   def is_active_host
     !self.merchant_id.blank?
+  end
+  
+  # generate unique and random access tokens
+  def generate_authenticatioin_token
+    begin
+      # self links to the User object
+      self.access_token = Devise.friendly_token # friendly_token function from Devise
+    end while self.class.exist?(access_token: access_token)
   end
 
 end
