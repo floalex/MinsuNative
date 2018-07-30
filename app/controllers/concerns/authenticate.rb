@@ -6,7 +6,7 @@ module Authenticate
   def authenticate_with_token!
     # render error message if no current user
     if !current_user.present?
-      render json: { error: "Not Authenticate", is_success: false }, status: :unauthorized
+      render json: { error: "Not Authenticate", is_success: false }, status: :unauthorized unless current_user.present
     end
   end
 end

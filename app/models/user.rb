@@ -72,7 +72,7 @@ class User < ApplicationRecord
     begin
       # self links to the User object
       self.access_token = Devise.friendly_token # friendly_token function from Devise
-    end while self.class.exist?(access_token: access_token)
+    end while self.class.exists?(access_token: access_token)
   end
 
 end
