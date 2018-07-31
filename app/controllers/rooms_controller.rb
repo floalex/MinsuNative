@@ -25,11 +25,6 @@ class RoomsController < ApplicationController
     end
   end
 
-  def show
-    @photos = @room.photos
-    @guest_reviews = @room.guest_reviews
-  end
-
   def listing
   end
 
@@ -75,6 +70,39 @@ class RoomsController < ApplicationController
         unavailable_dates: unavailable_dates,
         special_dates: special_dates
     }
+  end
+  
+  def show
+    room = Room.find(params[:id])
+    
+    today = Date.today
+    reservations = Reservation.where(
+      "room_id = ? AND (start_date >= ? AND end_date >= ?) AND status = ?",
+      params[:id], today, today, 1
+    )
+    
+    unavailable_dates = reservations.map { |r|
+      (r[:start_date].to_datetime...r[:end_date].to_datetime).map { |day| day.strftime("%Y-%m-%d") }
+    }.flatten.to_set
+    
+    calendars = Calendar.where(
+      "room_id = ? and status = ? and day >= ?",
+      params[:id], 1, today
+    ).pluck(:day).map(&:to_datetime).map { |day| day.strftime("%Y-%m-%d") }.flatten.to_set
+    
+    unavailable_dates.merge(calendars)
+    
+    if !room.nil?
+      room_serializer = RoomSerializer.new(
+        room,
+        image: room.cover_photo('medium'),
+        unavailable_dates: unavailable_dates
+      )
+      
+      render json: { error: room_serializer, is_success: true}, status: :ok
+    else
+      render json: { error: "Invalid ID", is_success: false}, status: 422
+    end
   end
 
   def preview
