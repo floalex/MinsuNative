@@ -70,8 +70,15 @@ Rails.application.routes.draw do
       get '/logout' => 'users#logout'
       post '/facebook' => 'users#facebook'
       post '/payment' => 'users#add_card'
+      get '/listing' => 'rooms#your_listing'
       
-      resources :rooms
+      resources :rooms do
+        member do
+          get '/reservation' => 'reservations#reservation_by_room'
+        end
+      end
+    
+      resources :reservations
     end
   end
 end
